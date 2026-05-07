@@ -55,15 +55,23 @@ export async function saveTemplateMapping(
 ): Promise<void> {
   const signature = generateTemplateSignature(headers);
 
-  await fetch('/api/templates', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      signature,
-      mappingName,
-      columnMapping
-    })
-  });
+  try {
+    const response = await fetch('/api/templates', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        signature,
+        mappingName,
+        columnMapping
+      })
+    });
+
+    if (!response.ok) {
+      console.warn(`Failed to save template: ${response.status} ${response.statusText}`);
+    }
+  } catch (error) {
+    console.warn('Failed to save template:', error);
+  }
 }
 
 export async function getMatchingTemplate(
@@ -71,14 +79,47 @@ export async function getMatchingTemplate(
 ): Promise<Record<string, string> | null> {
   const signature = generateTemplateSignature(headers);
 
-  const response = await fetch(`/api/templates?signature=${signature}`);
-  const data = await response.json();
+  try {
+    const response = await fetch(`/api/templates?signature=${signature}`);
+    
+    if (!response.ok) {
+      console.warn(`API request failed: ${response.status} ${response.statusText}`);
+      return null;
+    }
 
-  return data.columnMapping || null;
+    const text = await response.text();
+    if (!text) {
+      console.warn('API returned empty response');
+      return null;
+    }
+
+    const data = JSON.parse(text);
+    return data.columnMapping || null;
+  } catch (error) {
+    console.warn('Failed to get matching template:', error);
+    return null;
+  }
 }
 
 export async function getAllTemplates(): Promise<{ id: string; mappingName: string; columnMapping: Record<string, string> }[]> {
-  const response = await fetch('/api/templates');
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch('/api/templates');
+    
+    if (!response.ok) {
+      console.warn(`API request failed: ${response.status} ${response.statusText}`);
+      return [];
+    }
+
+    const text = await response.text();
+    if (!text) {
+      console.warn('API returned empty response');
+      return [];
+    }
+
+    const data = JSON.parse(text);
+    return data;
+  } catch (error) {
+    console.warn('Failed to get all templates:', error);
+    return [];
+  }
 }
