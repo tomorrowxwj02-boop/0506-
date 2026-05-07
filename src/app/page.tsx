@@ -25,9 +25,10 @@ export default function Home() {
     try {
       const response = await fetch('/api/shipments?page=1&pageSize=10000');
       const data = await response.json();
-      const codes = new Set(data.data
-        .filter((s: Shipment) => s.externalCode)
-        .map((s: Shipment) => s.externalCode!)
+      const codes: Set<string> = new Set(
+        data.data
+          .filter((s: Shipment) => s.externalCode)
+          .map((s: Shipment) => s.externalCode!)
       );
       setExistingCodes(codes);
     } catch (error) {

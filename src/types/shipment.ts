@@ -13,6 +13,9 @@ export interface Shipment {
   remark: string | null;
   batchId?: string;
   rowIndex?: number;
+  status?: 'pending' | 'submitted' | 'failed';
+  createdAt?: string;
+  submittedAt?: string;
 }
 
 export const SHIPMENT_FIELDS = {

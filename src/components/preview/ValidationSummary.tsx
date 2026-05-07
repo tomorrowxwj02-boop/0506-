@@ -10,9 +10,7 @@ interface ValidationSummaryProps {
 export function ValidationSummary({ errors, onRowClick }: ValidationSummaryProps) {
   if (errors.size === 0) return null;
 
-  const allErrors = Array.from(errors.entries()).flatMap(([row, errs]) =>
-    errs.map(err => ({ row, ...err }))
-  );
+  const allErrors = Array.from(errors.values()).flat();
 
   const errorLabels: Record<string, string> = {
     externalCode: '外部编码',

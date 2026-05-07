@@ -1,6 +1,8 @@
 import type { Shipment } from '@/types/shipment';
 
-const FIELD_ALIASES: Record<keyof Shipment, string[]> = {
+type MappingField = 'externalCode' | 'senderName' | 'senderPhone' | 'senderAddress' | 'receiverName' | 'receiverPhone' | 'receiverAddress' | 'weight' | 'pieceCount' | 'temperature' | 'remark';
+
+const FIELD_ALIASES: Record<MappingField, string[]> = {
   externalCode: ['外部编码', '外部单号', '客户单号', '外部订单号', '订单号', '外单号', 'Ref Code', 'ref code', '客户单号'],
   senderName: ['发件人姓名', '寄件人', '发件人', '寄件人姓名', '发货人', '发货人姓名', 'Sender', 'sender'],
   senderPhone: ['发件人电话', '寄件人电话', '发件人手机', '寄件人手机', '发货人电话', '发件电话', 'Sender Tel', 'sender tel', 'sender phone'],

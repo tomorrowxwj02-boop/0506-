@@ -8,3 +8,4 @@ dist
 prisma/migrations
 prisma/dev.db
 *.log
+.vercel
