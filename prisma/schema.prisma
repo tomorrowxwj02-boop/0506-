@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model TemplateMapping {
+  id                String    @id @default(cuid())
+  templateSignature String    @unique
+  mappingName       String
+  columnMapping     String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  useCount          Int       @default(0)
+}
+
+model Shipment {
+  id              String    @id @default(cuid())
+  externalCode    String?   @map("external_code")
+  senderName      String    @map("sender_name")
+  senderPhone     String    @map("sender_phone")
+  senderAddress   String    @map("sender_address")
+  receiverName    String    @map("receiver_name")
+  receiverPhone   String    @map("receiver_phone")
+  receiverAddress String    @map("receiver_address")
+  weight          Float
+  pieceCount      Int       @map("piece_count")
+  temperature     String
+  remark          String?
+  batchId         String    @map("batch_id")
+  status          String    @default("pending")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  submittedAt     DateTime? @map("submitted_at")
+
+  @@index([externalCode])
+  @@index([receiverName])
+  @@index([createdAt])
+  @@map("shipments")
+}
