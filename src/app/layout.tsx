@@ -23,6 +23,9 @@ export default function RootLayout({
                 <Link href="/" className="text-blue-500 hover:text-blue-700">
                   导入运单
                 </Link>
+                <Link href="/products" className="text-gray-600 hover:text-gray-800">
+                  产品选择
+                </Link>
                 <Link href="/history" className="text-gray-600 hover:text-gray-800">
                   历史查询
                 </Link>
